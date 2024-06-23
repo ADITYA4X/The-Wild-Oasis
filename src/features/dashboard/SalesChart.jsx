@@ -32,6 +32,7 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
+/*
 const fakeData = [
   { label: "Jan 09", totalSales: 480, extrasSales: 20 },
   { label: "Jan 10", totalSales: 580, extrasSales: 100 },
@@ -63,6 +64,7 @@ const fakeData = [
   { label: "Feb 05", totalSales: 1400, extrasSales: 600 },
   { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
 ];
+*/
 
 function SalesChart({ bookings, numDays }) {
   const { isDarkMode } = useDarkMode();
