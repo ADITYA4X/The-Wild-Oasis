@@ -1,3 +1,3 @@
-# The Wild Oasis Hotel MG
+# The Wild Oasis Hotel MG App
 
-The Project is based on Hotel management app controlled by their employees.
+Main project in Jonas Schmedtmann's Ultimate React Course. Build with React Query and Supabase.
