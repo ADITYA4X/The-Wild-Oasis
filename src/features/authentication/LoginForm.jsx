@@ -34,7 +34,7 @@ function LoginForm() {
         <Input
           type="email"
           id="email"
-          placeholder="Enter your email"
+          placeholder="test@test.com"
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

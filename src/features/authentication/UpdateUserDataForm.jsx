@@ -18,7 +18,6 @@ function UpdateUserDataForm() {
       user_metadata: { fullName: currentFullName },
     },
   } = useUser();
-
   const { updateUser, isUpdating } = useUpdateUser();
 
   const [fullName, setFullName] = useState(currentFullName);
@@ -72,13 +71,16 @@ function UpdateUserDataForm() {
       <FormRow>
         <Button
           type="reset"
-          variation="secondary"
+          size="medium"
+          $variation="secondary"
           disabled={isUpdating}
           onClick={handleCancel}
         >
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update account</Button>
+        <Button disabled={isUpdating} size="medium">
+          Update account
+        </Button>
       </FormRow>
     </Form>
   );

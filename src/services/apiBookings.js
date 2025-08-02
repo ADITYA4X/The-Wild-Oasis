@@ -71,11 +71,14 @@ export async function getBookingsAfterDate(date) {
 
 // Returns all STAYS that are were created after the given date
 export async function getStaysAfterDate(date) {
+  const from = new Date(date).toISOString();
+  const to = new Date().toISOString();
+
   const { data, error } = await supabase
     .from("bookings")
     .select("*, guests(fullName)")
-    .gte("startDate", date)
-    .lte("startDate", getToday());
+    .gte("startDate", from)
+    .lte("startDate", to);
 
   if (error) {
     console.error(error);
@@ -87,22 +90,37 @@ export async function getStaysAfterDate(date) {
 
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
+  const now = new Date();
+
+  // Correct UTC midnight for today
+  const startOfTodayUTC = new Date(
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
+  );
+  const endOfTodayUTC = new Date(
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)
+  );
+
+  const startISO = startOfTodayUTC.toISOString();
+  const endISO = endOfTodayUTC.toISOString();
+
+  // console.log("Start ISO:", startISO);
+  // console.log("End ISO:", endISO);
+
   const { data, error } = await supabase
     .from("bookings")
     .select("*, guests(fullName, nationality, countryFlag)")
     .or(
-      `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+      `and(status.eq.unconfirmed,startDate.gte.${startISO},startDate.lt.${endISO}),` +
+        `and(status.eq.checked-in,startDate.gte.${startISO},startDate.lt.${endISO})`
     )
     .order("created_at");
 
-  // Equivalent to this. But by querying this, we only download the data we actually need, otherwise we would need ALL bookings ever created
-  // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
-  // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
-
   if (error) {
-    console.error(error);
-    throw new Error("Bookings could not get loaded");
+    console.error("Supabase error:", error);
+    throw new Error("Bookings could not be loaded");
   }
+
+  // console.log("Fetched bookings:", data);
   return data;
 }
 

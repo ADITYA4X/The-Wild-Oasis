@@ -151,13 +151,14 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button
+          size="medium"
           $variation="secondary"
           type="reset"
           onClick={() => onCloseModal?.()}
         >
           Cancel
         </Button>
-        <Button disabled={isWorking}>
+        <Button size="medium" disabled={isWorking}>
           {isEditSession ? "Edit cabin" : "Create new cabin"}
         </Button>
       </FormRow>

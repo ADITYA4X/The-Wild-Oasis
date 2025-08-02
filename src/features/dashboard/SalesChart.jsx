@@ -101,7 +101,7 @@ function SalesChart({ bookings, numDays }) {
         totalSales: { stroke: "#4f46e5", fill: "#c7d2fe" },
         extrasSales: { stroke: "#16a34a", fill: "#dcfce7" },
         text: "#374151",
-        background: "#fff",
+        background: "#ffffff",
       };
 
   return (
@@ -113,6 +113,16 @@ function SalesChart({ bookings, numDays }) {
 
       <ResponsiveContainer height={300} width="100%">
         <AreaChart data={data}>
+          <defs>
+            <linearGradient id="colorTS" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="colorES" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <XAxis
             dataKey="label"
             tick={{ fill: colors.text }}
@@ -120,12 +130,12 @@ function SalesChart({ bookings, numDays }) {
           />
 
           <YAxis
-            unit="$"
+            unit="₹"
             tick={{ fill: colors.text }}
             tickLine={{ stroke: colors.text }}
           />
 
-          <CartesianGrid strokeDasharray="4" />
+          <CartesianGrid strokeDasharray="3" />
 
           <Tooltip contentStyle={{ backgroundColor: colors.background }} />
 
@@ -133,20 +143,22 @@ function SalesChart({ bookings, numDays }) {
             dataKey="totalSales"
             type="monotone"
             stroke={colors.totalSales.stroke}
-            fill={colors.totalSales.fill}
-            strokeWidth={2}
+            fill="url(#colorTS)"
+            strokeWidth={1}
+            fillOpacity={1}
             name="Total sales"
-            unit="$"
+            unit="₹"
           />
 
           <Area
             dataKey="extrasSales"
             type="monotone"
             stroke={colors.extrasSales.stroke}
-            fill={colors.extrasSales.fill}
-            strokeWidth={2}
+            fill="url(#colorES)"
+            strokeWidth={1}
+            fillOpacity={1}
             name="Extras sales"
-            unit="$"
+            unit="₹"
           />
         </AreaChart>
       </ResponsiveContainer>
